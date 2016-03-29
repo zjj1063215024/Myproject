@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+	<meta name="apple-themes-web-app-capable" content="yes">
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta content="email=no" name="format-detection" />
+	<meta name="format-detection" content="telephone=no">
+	<title>消息通知</title>
+	<script src="js/jquery-2.1.1.js"></script>
+	<script src="js/Geturl.js"></script>
+	<script type="javascript" src="js/fonts.js"></script>
+	<link rel="stylesheet" href="css/all.css">
+	<script language="JavaScript">
+
+		$(function(){
+			var con=""
+			$.ajax({
+				url: 'http://jlb.oular.com/mobileapp.php?mod=home&action=space&op=message_list&page=1&perpage=10&filter=announcepm&sauthtoken='+a,
+				type:'get',
+				dataType : 'jsonp',
+				cache: false,
+				timeout: 3000,
+				success: function(result){
+					var list=null;
+					var Systemmessagelist=[];
+					for(var i=0;i<result.data.length;i++)
+					{
+						var A=result.data[i].avatar;
+						var B=result.data[i].author;
+						var C=result.data[i].dateline;
+						C=parseInt(C,10);
+						var unixTimestamp=new Date(C * 1000);
+						var D=unixTimestamp.toLocaleString();
+						var E=result.data[i].message;
+						list={
+							avatar:A,
+							author:B,
+							dateline:D,
+							message:E
+						};
+						Systemmessagelist.push(list);
+					}
+					Systemmessagelist.forEach(function (Systemmessagelist) {
+						con += "<volist>" +
+						"<div class='flex_row'>"+
+						"<div class='flex1 alerts_pic'>"+
+						"<img src="+Systemmessagelist.avatar+">"+
+						"</div>"+
+						"<div class='flex4'>"+
+						"<div class='alerts_name'>"+Systemmessagelist.author+"</div>"+
+						"<div class='alerts_time'>"+Systemmessagelist.dateline+"</div>"+
+						"</div>"+
+						"</div>"+
+						"<div class='alerts_mess'>"+Systemmessagelist.message+"</div>"+
+						"</volist>"
+					});
+					$("#outputarea").html(con);
+				},
+				error: function(){
+					alert("获取失败");
+				}
+			});
+		})
+	</script>
+</head>
+<body>
+	<div>
+		<div id="outputarea" class="alerts_all"></div>
+	</div>
+</body>
+</html>

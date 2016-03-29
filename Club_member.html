@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+	    <meta name="apple-themes-web-app-capable" content="yes">
+	    <meta content="yes" name="apple-mobile-web-app-capable" />
+	    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	    <meta content="telephone=no" name="format-detection" />
+	    <meta content="email=no" name="format-detection" />
+	    <meta name="format-detection" content="telephone=no">
+	    <title>俱乐部成员</title>
+	    <script type="javascript" src="js/fonts.js"> </script>
+		<script src="js/Geturl.js"></script>
+	    <script src="js/jquery-2.1.1.js"></script>
+	    <link rel="stylesheet" href="css/all.css">
+		<script language="JavaScript">
+			$(function(){
+				var con1=""
+				$.ajax({
+					url: 'http://jlb.oular.com/mobileapp.php?mod=group&action=memberlist&mobile=2&page=1&fid='+c+'&op=alluser',
+					type:'get',
+					dataType : 'jsonp',
+					cache: false,
+					timeout: 3000,
+					success: function(result){
+						var list=null;
+						var Clubmemberlist=[];
+						for(var i=0;i<result.data.length;i++)
+						{
+							var A=result.data[i].avatar;
+							var B=result.data[i].username;
+							var C=result.data[i].uid;
+							var D=result.data[i].level
+							list={
+								avatar:A,
+								username:B,
+								uid:C,
+								level:D
+							};
+							Clubmemberlist.push(list);
+						}
+						Clubmemberlist.forEach(function (Clubmemberlist) {
+							con1 += "<volist>" +
+							"<div class='flex_row manage_bor'>"+
+							"<div class='flex1 member_pic'>"+
+							"<img src="+ Clubmemberlist.avatar+">"+
+							"</div>"+
+							"<div class='flex3'>"+
+							"<div class='member_name'>"+ Clubmemberlist.username+"</div>"+
+//							"<div class='member_signature'>"++"</div>"+
+							"</div>"+
+							"<div class='flex1 member_pass2' >"+
+							"<img src='images/iconfont-shezhi.png'  onClick='showHide("+Clubmemberlist.uid+","+Clubmemberlist.level+")'/>"+
+							"</div>"+
+							"</div>"+
+							"</volist>"
+						});
+						$("#outputclubmenberarea").html(con1);
+					},
+					error: function(){
+						alert("获取失败");
+					}
+				});
+			})
+		</script>
+	</head>
+	<body>
+		<div id="bg"  style="color:white"></div>
+			<div class="box">
+				<div class="list" id="getvalue">
+			        <ul>
+			            <li onclick="Dclubmem()">删除成员</li>
+			            <li onclick="Mclubmem()">设为管理员</li>
+			        </ul>
+    			</div>
+			</div>
+		<div>
+			
+            	<div class="title flex_row">
+		            <div class=" flex1 flex_row" >
+		            	<div class="title_back" id="club_member_back" >
+		            		<img src="images/Title-Bar-icon-back.png" >
+		            	</div>
+		              	<div class="title_close">
+		              		<img src="images/iconfont-close.png"/>
+		              	</div>
+		            </div>
+		            <div class="title_bar flex2">成员管理</div>
+		            <div class="flex1 ">
+		            </div>
+	            </div>
+	    		<!--<div class="flex_row manage_bor">
+	    			<div class="flex1 member_pic">
+	    				<img src="images/userimg1.png" alt="" />
+	    			</div>
+	    			<div class="flex3">
+	    				<div class="member_name">james</div>
+	    				<div class="member_signature">一起玩</div>
+	    			</div>
+	    			<div class="flex1 member_pass2">
+	    				<img src="images/iconfont-shezhi.png" alt="" />
+	    			</div>
+	    		</div>
+	    		<div class="flex_row manage_bor">
+	    			<div class="flex1 member_pic">
+	    				<img src="images/userimg1.png" alt="" />
+	    			</div>
+	    			<div class="flex3">
+	    				<div class="member_name">james</div>
+	    				<div class="member_signature">一起玩</div>
+	    			</div>
+	    			<div class="flex1 member_pass2">
+	    				<img src="images/iconfont-shezhi.png" alt="" />
+	    			</div>
+	    		</div>
+	    		<div class="flex_row manage_bor">
+	    			<div class="flex1 member_pic">
+	    				<img src="images/userimg1.png" alt="" />
+	    			</div>
+	    			<div class="flex3">
+	    				<div class="member_name">james</div>
+	    				<div class="member_signature">一起玩</div>
+	    			</div>
+	    			<div class="flex1 member_pass2">
+	    				<img src="images/iconfont-shezhi.png" alt="" />
+	    			</div>
+	    		</div>-->
+			<div  id="outputclubmenberarea"></div>
+		</div>
+		<script src="js/all.js"></script>
+		<script>
+			var Uid1,Level
+		   function showHide(Uid,Level){
+			   Uid1=Uid
+			   Level1=Level
+			   console.log(Uid1)
+			   console.log(Level1)
+		     	 $("#bg").css({
+			            display: "block", height: $(document).height()
+			        });
+			        var $box = $('.box');
+			        $box.css({
+			            //设置弹出层距离左边的位置
+			            left: "15%",
+			            //设置弹出层距离上面的位置
+			            top: ($(window).height() - $box.height()) / 2 + $(window).scrollTop() + "px",
+			            display: "block"
+			        });
+		     }
+			$(function () {
+			    //点击关闭按钮的时候，遮罩层关闭
+			    $("#bg").click(function () {
+			        $("#bg,.box").css("display", "none");
+			    });
+			});
+		   function Dclubmem(){
+				   $.ajax({
+					   url:'http://jlb.oular.com/mobileapp.php?mod=group&action=manage&op=manageuser&sauthtoken='+ a+'&fid='+ c+'&manageuser=true&targetlevel=5&muid['+Uid1+']='+Level1,
+					   type: 'get',
+					   dataType: 'jsonp',
+					   cache: true,
+					   timeout: 3000,
+					   success: function(result){
+						   alert(result.err_msg)
+						   window.location.reload();
+					   },
+					   error: function () {
+						   alert("获取失败");
+					   }
+				   })
+		   }//删除成员
+		   function Mclubmem(){
+				   $.ajax({
+					   url:'http://jlb.oular.com/mobileapp.php?mod=group&action=manage&op=manageuser&sauthtoken='+ a+'&fid='+ c+'&manageuser=true&targetlevel=3&muid['+Uid1+']='+Level1,
+					   type: 'get',
+					   dataType: 'jsonp',
+					   cache: true,
+					   timeout: 3000,
+					   success: function(result){
+						   alert(result.err_msg);
+						   window.location.reload();
+					   },
+					   error: function () {
+						   alert("获取失败");
+					   }
+				   })
+		   }//设置成员为管理
+		</script>
+	</body>
+</html>
