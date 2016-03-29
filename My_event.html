@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+        <meta name="apple-themes-web-app-capable" content="yes">
+        <meta content="yes" name="apple-mobile-web-app-capable" />
+        <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+        <meta content="telephone=no" name="format-detection" />
+        <meta content="email=no" name="format-detection" />
+        <meta name="format-detection" content="telephone=no">
+        <title>我的活动</title>
+        <script src="js/jquery-2.1.1.js"></script>
+        <script type="javascript" src="js/fonts.js"> </script>
+        <link rel="stylesheet" href="css/all.css">
+	</head>
+	<body>
+		<div>
+          	<div>
+          		<div id="mevent_title" class="mevent_title">
+          			<span class="selected">报名的活动</span>
+          			<span>发起的活动</span>
+          		</div>
+          	</div>
+          	
+          	<div id="mevent_content" class="mevent_content">
+          		<dl>
+          			<div class="mevent_main">
+          				<img src="images/Feed-pic.png" class="mevent_pic" />
+          				<div class="mevent_tit">（一结束）说说你跟二货队友的露营</div>
+          				<div class="flex_row  mevent_time">
+          					<img src="images/Feed-icon-time.png" alt="" />
+          					<div class="flex1">2016-05-04</div>
+          				</div>
+          			</div>
+          		</dl>
+          		<dl class="hide">
+          			<div class="mevent_main">
+          				<img src="images/Feed-pic.png" class="mevent_pic" />
+          				<div class="mevent_tit">（一结束）说说你跟大神 队友的露营</div>
+          				<div class="flex_row  mevent_time">
+          					<img src="images/Feed-icon-time.png" alt="" />
+          					<div class="flex1">2016-05-04</div>
+          				</div>
+          			</div>
+          		</dl>
+          	</div>
+		</div>
+		<script language="javascript">
+		    $('#mevent_title span').click(function(){
+		        $(this).addClass("selected").siblings().removeClass();//removeClass就是删除当前其他类；只有当前对象有addClass("selected")；siblings()意思就是当前对象的同级元素，removeClass就是删除；
+		        $("#mevent_content > dl").hide().eq($('#mevent_title span').index(this)).show();
+		    });
+		</script>
+	</body>
+</html>

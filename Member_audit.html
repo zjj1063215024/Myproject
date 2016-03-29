@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		 <meta charset="UTF-8">
+	    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+	    <meta name="apple-themes-web-app-capable" content="yes">
+	    <meta content="yes" name="apple-mobile-web-app-capable" />
+	    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	    <meta content="telephone=no" name="format-detection" />
+	    <meta content="email=no" name="format-detection" />
+	    <meta name="format-detection" content="telephone=no">
+	    <title>活动管理</title>
+	    <script type="javascript" src="js/fonts.js"> </script>
+    	<script src="js/jquery-2.1.1.js"></script>
+		<script src="js/Geturl.js"></script>
+	    <link rel="stylesheet" href="css/all.css">
+		<script language="JavaScript">
+			function N(Value){
+				applyid=Value
+				$.ajax({
+					url:'http://jlb.oular.com/mobileapp.php?mod=forum&action=activityapplies_verify&op=delete&client=android&applyidarray[]='+applyid+'&reason=&applylistsubmit=yes&tid='+d+'3&sauthtoken='+a,
+					type: 'get',
+					dataType: 'jsonp',
+					cache: true,
+					timeout: 3000,
+					success: function(result){
+						alert(result.err_msg);
+						window.location.reload();
+					},
+					error: function () {
+						alert("获取失败");
+					}
+				})
+			};//拒绝
+			function Y(Value){
+				applyid=Value
+				$.ajax({
+					url:'http://jlb.oular.com/mobileapp.php?mod=forum&action=activityapplies_verify&op=success&client=android&applyidarray[]='+applyid+'&reason=&applylistsubmit=yes&tid='+d+'&sauthtoken='+a,
+					type: 'get',
+					dataType: 'jsonp',
+					cache: true,
+					timeout: 3000,
+					success: function(result){
+						alert(result.err_msg);
+					},
+					error: function () {
+						alert("获取失败");
+					}
+				})
+			};//通过
+			$(function() {
+				$(function() {
+					var con = ""
+					$.ajax({
+						url: 'http://jlb.oular.com/mobileapp.php?mod=group&action=activityapply_member&client=android&tid='+d,
+						type: 'get',
+						dataType: 'jsonp',
+						cache: false,
+						timeout: 3000,
+						success: function (result) {
+
+							var list = null;
+							var Vermemberlist = [];
+							for (var i = 0; i < result.data.length;i++) {
+								if(result.data[i].verified=='0'){
+									var I=i
+									var A = result.data[I].avatar;
+									var B = result.data[I].username;
+									var C = result.data[I].message;
+									var D = result.data[I].ufielddata.userfield.realname;
+									var E = result.data[I].ufielddata.userfield.mobile;
+									var F = result.data[I].ufielddata.userfield.qq;
+									var G=result.data[I].applyid
+									list = {
+										avatar: A,
+										username: B,
+										message: C,
+										realname: D,
+										mobile: E,
+										qq: F,
+										applyid:G
+									};
+									Vermemberlist.push(list);
+								}
+
+							}
+							Vermemberlist.forEach(function (Vermemberlist) {
+								con += "<volist>" +
+								"<div class='flex_row'>"+
+								"<div class='flex1 member_pic'>"+
+								"<img src="+Vermemberlist.avatar+">"+
+								"</div>"+
+								"<div class='flex3'>"+
+								"<div class='member_name'>"+Vermemberlist.username +"</div>"+
+								"<div class='member_signature'>"+Vermemberlist.message +"</div>"+
+								"</div>"+
+								"<div class='flex2 member_pass1 flex_row'>"+
+								"<img src='images/iconfont-roundclose.png'  onclick='N("+Vermemberlist.applyid+")'>"+
+								"<img src='images/iconfont-roundcheck.png' onclick='Y("+Vermemberlist.applyid+")'>"+
+								"</div>"+
+								"</div>"+
+								"<div class='member_message'>"+
+								"<div>姓名："+Vermemberlist.realname+"</div>"+
+								"<div>联系方式："+Vermemberlist.mobile+"</div>"+
+								"<div>qq："+Vermemberlist.qq+"</div>"+
+//								"<div>备注：</div>"+
+								"</div>"+
+								"</volist>"
+
+							});
+							$("#Vermemberarea").html(con);
+						},
+						error: function () {
+							alert("获取失败");
+						}
+					});
+				});//待审核
+				$("#Nmember").click(function() {
+					var con = ""
+					$.ajax({
+						url: 'http://jlb.oular.com/mobileapp.php?mod=group&action=activityapply_member&client=android&tid='+d,
+						type: 'get',
+						dataType: 'jsonp',
+						cache: false,
+						timeout: 3000,
+						success: function (result) {
+							var list = null;
+							var Nmemberlist = [];
+							for (var i = 0; i < result.data.length;i++) {
+								if(result.data[i].verified=='2'){
+									var I=i
+									var A = result.data[I].avatar;
+									var B = result.data[I].username;
+									var C = result.data[I].message;
+									var D = result.data[I].ufielddata.userfield.realname;
+									var E = result.data[I].ufielddata.userfield.mobile;
+									var F = result.data[I].ufielddata.userfield.qq;
+									list = {
+										avatar: A,
+										username: B,
+										message: C,
+										realname: D,
+										mobile: E,
+										qq: F
+									};
+									Nmemberlist.push(list);
+								}
+
+							}
+							Nmemberlist.forEach(function (Nmemberlist) {
+								con += "<volist>" +
+								"<div class='flex_row'>" +
+								"<div class='flex1 member_pic'>" +
+								"<img src=" + Nmemberlist.avatar + ">" +
+								"</div>" +
+								"<div class='flex3'>" +
+								"<div class='member_name'>" + Nmemberlist.username + "</div>" +
+								"<div class='member_signature'>" + Nmemberlist.message + "</div>" +
+								"</div>" +
+								"</div>" +
+								"<div class='member_message'>" +
+								"<div>姓名：" + Nmemberlist.realname + "</div>" +
+								"<div>联系方式："+Nmemberlist.mobile+"</div>" +
+								"<div>qq:"+Nmemberlist.qq+"</div>" +
+//							"<div>备注：</div>" +
+								"</div>" +
+								"</volist>"
+							});
+							$("#Nmemberarea").html(con);
+						},
+						error: function () {
+							alert("获取失败");
+						}
+					});
+				});//未通过
+				$("#Ymember").click(function() {
+				var con = ""
+				$.ajax({
+					url: 'http://jlb.oular.com/mobileapp.php?mod=group&action=activityapply_member&client=android&tid='+d,
+					type: 'get',
+					dataType: 'jsonp',
+					cache: false,
+					timeout: 3000,
+					success: function (result) {
+						var list = null;
+						var Ymemberlist = [];
+						for (var i = 0; i < result.data.length;i++) {
+							if(result.data[i].verified=='1'){
+								var I=i
+								var A = result.data[I].avatar;
+								var B = result.data[I].username;
+								var C = result.data[I].message;
+								var D = result.data[I].ufielddata.userfield.realname;
+								var E = result.data[I].ufielddata.userfield.mobile;
+								var F = result.data[I].ufielddata.userfield.qq;
+								list = {
+									avatar: A,
+									username: B,
+									message: C,
+									realname: D,
+									mobile: E,
+									qq: F
+								};
+								Ymemberlist.push(list);
+							}
+
+						}
+						Ymemberlist.forEach(function (Ymemberlist) {
+							con += "<volist>" +
+							"<div class='flex_row'>" +
+							"<div class='flex1 member_pic'>" +
+							"<img src=" + Ymemberlist.avatar + ">" +
+							"</div>" +
+							"<div class='flex3'>" +
+							"<div class='member_name'>" + Ymemberlist.username + "</div>" +
+							"<div class='member_signature'>" + Ymemberlist.message + "</div>" +
+							"</div>" +
+							"</div>" +
+							"<div class='member_message'>" +
+							"<div>姓名：" + Ymemberlist.realname + "</div>" +
+							"<div>联系方式："+Ymemberlist.mobile+"</div>" +
+							"<div>qq:"+Ymemberlist.qq+"</div>" +
+//							"<div>备注：</div>" +
+							"</div>" +
+							"</volist>"
+						});
+						$("#Ymemberarea").html(con);
+					},
+					error: function () {
+						alert("获取失败");
+					}
+				});
+			});//通过
+			});
+
+		</script>
+	</head>
+	<body>
+		<div>
+			<div class="title flex_row">
+		        <div class=" flex1 flex_row" >
+				    <div class="title_back"  >
+				        <img src="images/Title-Bar-icon-back.png" >
+				    </div>
+				    <div class="title_close">
+				        <img src="images/iconfont-close.png"/>
+				    </div>
+				</div>
+		        <div class="title_bar flex2">成员审核</div>
+		        <div class="flex1  title_search">
+		        </div>
+	    	</div>
+	    	
+	    	<div>
+          		<div id="audit_title" class="mevent_title">
+          			<span class="selected" id="Vermember">待审核</span>
+          			<span id="Nmember">未通过</span>
+          			<span id="Ymember">已通过</span>
+          		</div>
+          	</div>
+          	
+          	<!--待审核-->
+	    	<div id="audit_content">
+	    		<dl id="Vermemberarea">
+
+	    	</dl>
+			
+			<!--未通过-->
+			<dl class="hide" id="Nmemberarea">
+	    		<!--<div class="flex_row">-->
+	    			<!--<div class="flex1 member_pic">-->
+	    				<!--<img src="images/userimg1.png" alt="" />-->
+	    			<!--</div>-->
+	    			<!--<div class="flex3">-->
+	    				<!--<div class="member_name">james</div>-->
+	    				<!--<div class="member_signature">一起玩</div>-->
+	    			<!--</div>-->
+	    			<!--<div class="flex2 member_pass1 flex_row">-->
+	    				<!--&lt;!&ndash;<img src="images/iconfont-roundclose.png" alt="" />-->
+	    				<!--<img src="images/iconfont-roundcheck.png" alt="" />&ndash;&gt;-->
+	    			<!--</div>-->
+	    		<!--</div>-->
+	    		<!--<div class="member_message">-->
+	    			<!--<div>姓名：刘德华</div>-->
+	    			<!--<div>身份证：320581199602012541</div>-->
+	    			<!--<div>联系方式：1922651254</div>-->
+	    			<!--<div>备注：</div>-->
+	    		<!--</div>-->
+	    	</dl>
+	    	
+	    	<!--已通过-->
+	    	<dl class="hide" id="Ymemberarea">
+
+	    	</dl>
+	    	</div>
+		</div>
+		<script src="js/all.js"></script>
+		<script>
+			$('#audit_title span').click(function(){
+		        $(this).addClass("selected").siblings().removeClass();//removeClass就是删除当前其他类；只有当前对象有addClass("selected")；siblings()意思就是当前对象的同级元素，removeClass就是删除；
+		        $("#audit_content > dl").hide().eq($('#audit_title span').index(this)).show();
+		    });
+		</script>
+	</body>
+</html>

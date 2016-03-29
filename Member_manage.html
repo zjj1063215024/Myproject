@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+	    <meta name="apple-themes-web-app-capable" content="yes">
+	    <meta content="yes" name="apple-mobile-web-app-capable" />
+	    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+	    <meta content="telephone=no" name="format-detection" />
+	    <meta content="email=no" name="format-detection" />
+	    <meta name="format-detection" content="telephone=no">
+	    <title>活动成员管理</title>
+	    <script type="javascript" src="js/fonts.js"> </script>
+	    <script src="js/jquery-2.1.1.js"></script>
+	    <script src="js/Geturl.js"></script>
+	    <link rel="stylesheet" href="css/all.css">
+		<script language="JavaScript">
+			function D(Value){
+				applyid=Value
+				$.ajax({
+					url:'http://jlb.oular.com/mobileapp.php?mod=forum&action=activityapplies_verify&op=delete&client=android&applyidarray[]='+applyid+'&reason=&applylistsubmit=yes&tid='+d+'3&sauthtoken='+a,
+					type: 'get',
+					dataType: 'jsonp',
+					cache: true,
+					timeout: 3000,
+					success: function(result){
+						alert(result.err_msg);
+						window.location.reload();
+					},
+					error: function () {
+						alert("获取失败");
+					}
+				})
+			};//删除
+			$(function() {
+				var con = ""
+				$.ajax({
+					url: 'http://jlb.oular.com/mobileapp.php?mod=group&action=activityapply_member&client=android&tid='+d,
+					type: 'get',
+					dataType: 'jsonp',
+					cache: false,
+					timeout: 3000,
+					success: function (result) {
+						var list = null;
+						var Allymemberlist = [];
+						for (var i = 0; i < result.data.length;i++) {
+							if(result.data[i].verified=='1'){
+								var I=i
+								var A = result.data[I].avatar;
+								var B = result.data[I].username;
+								var C = result.data[I].message;
+								var G=result.data[I].applyid
+								list = {
+									avatar: A,
+									username: B,
+									message: C,
+									applyid:G
+								};
+								Allymemberlist.push(list);
+							}
+
+						}
+						Allymemberlist.forEach(function (Allymemberlist) {
+							con += "<volist>" +
+							"<div class='flex_row manage_bor'>"+
+							"<div class='flex1 member_pic'>"+
+							"<img src="+Allymemberlist.avatar +">"+
+							"</div>"+
+							"<div class='flex3'>"+
+							"<div class='member_name'>"+Allymemberlist.username+"</div>"+
+							"<div class='member_signature'>"+Allymemberlist.message+"</div>"+
+							"</div>"+
+							"<div class='flex1 member_pass2'>"+
+							"<img src='images/iconfont-shangchu.png' onclick='D("+Allymemberlist.applyid+")'>"+
+							"</div>"+
+							"</div>"+
+							"</volist>"
+
+						});
+						$("#Allymemberarea").html(con);
+					},
+					error: function () {
+						alert("获取失败");
+					}
+				});//通过
+			});
+		</script>
+	</head>
+	<body>
+		<div>
+			<div class="title flex_row">
+		        <div class=" flex1 flex_row" >
+				    <div class="title_back"  >
+				        <img src="images/Title-Bar-icon-back.png" >
+				    </div>
+				    <div class="title_close">
+				        <img src="images/iconfont-close.png"/>
+				    </div>
+				</div>
+		        <div class="title_bar flex2">活动成员管理</div>
+		        <div class="flex1  title_search">
+		        
+		        </div>
+	    	</div>
+	    	
+	    	<div id="Allymemberarea">
+	    		<!--<div class="flex_row manage_bor">-->
+	    			<!--<div class="flex1 member_pic" >-->
+	    				<!--<img src="images/userimg1.png" alt="" />-->
+	    			<!--</div>-->
+	    			<!--<div class="flex3">-->
+	    				<!--<div class="member_name">james</div>-->
+	    				<!--<div class="member_signature">一起玩</div>-->
+	    			<!--</div>-->
+	    			<!--<div class="flex1 member_pass2">-->
+	    				<!--<img src="images/iconfont-shangchu.png" alt="" />-->
+	    			<!--</div>-->
+	    		<!--</div>-->
+	    		
+	    		<!--<div class="flex_row manage_bor">-->
+	    			<!--<div class="flex1 member_pic">-->
+	    				<!--<img src="images/userimg1.png" alt="" />-->
+	    			<!--</div>-->
+	    			<!--<div class="flex3">-->
+	    				<!--<div class="member_name">james</div>-->
+	    				<!--<div class="member_signature">一起玩</div>-->
+	    			<!--</div>-->
+	    			<!--<div class="flex1 member_pass2">-->
+	    				<!--<img src="images/iconfont-shangchu.png" alt="" />-->
+	    			<!--</div>-->
+	    		<!--</div>-->
+	    		<!---->
+	    		<!--<div class="flex_row manage_bor">-->
+	    			<!--<div class="flex1 member_pic">-->
+	    				<!--<img src="images/userimg1.png" alt="" />-->
+	    			<!--</div>-->
+	    			<!--<div class="flex3">-->
+	    				<!--<div class="member_name">james</div>-->
+	    				<!--<div class="member_signature">一起玩</div>-->
+	    			<!--</div>-->
+	    			<!--<div class="flex1 member_pass2">-->
+	    				<!--<img src="images/iconfont-shangchu.png" alt="" />-->
+	    			<!--</div>-->
+	    		</div>
+	    		
+	    	</div>
+		</div>
+		<script src="js/all.js"></script>
+	</body>
+</html>

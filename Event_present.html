@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+    <meta name="apple-themes-web-app-capable" content="yes">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <meta name="format-detection" content="telephone=no">
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/Geturl.js"></script>
+    <title>活动详细介绍</title>
+    <script type="javascript" src="js/fonts.js"> </script>
+    <link rel="stylesheet" href="css/all.css">
+    <script language="JavaScript">
+        $(function(){
+            var con=""
+            $.ajax({
+                url: 'http://jlb.oular.com/mobileapp.php?mod=thread&action=viewthread&page=1&perpage=10&tid='+d,
+                type:'get',
+                dataType : 'jsonp',
+                cache: false,
+                timeout: 3000,
+                success: function(result){
+                    var message=result.data[0].message
+                    $("#message").html(message)
+                    var starttimefrom=result.data[0].activity_info.starttimefrom;
+                    $("#starttimefrom").html(starttimefrom);
+                    var place=result.data[0].activity_info.place;
+                    $("#place").html(place);
+                    var number=result.data[0].activity_info.number;
+                    $("#number").html(number+'人');
+                },
+                error: function(){
+                    alert("获取失败");
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+<div>
+    <div class="title flex_row">
+        <div class="title_back flex1">
+            <img src="images/Title-Bar-icon-back.png" alt="">
+        </div>
+        <div class="title_bar flex4">活动详细介绍</div>
+        <div class="flex1"></div>
+    </div>
+
+    <div>
+        <div class="present_introduce" id="message">
+            <!--<p>一上岩攀石俱乐部俱乐部将秉承科学、安全、环保的理念，亲近自然、强身健体，选择轻松的线路，搭建交友平台，将会给您带来低风险，高感知的系列活动，满足您健身、考察、交友、团队拓展的不同需要，欢迎喜欢户外运动的个人和团队参与进来。在这个周日一上岩带你们领略大山的热情、溪水的清凉、感受真实岩壁的触摸，感受户外带给你的激情。 </p>-->
+        </div>
+
+        <div class="flex_row present_title">
+            <div class="flex1 present_tit">集合时间</div>
+            <div class="flex4 present_main" id="starttimefrom"></div>
+        </div>
+        <div class="flex_row present_title">
+            <div class="flex1 present_tit">集合地点</div>
+            <div class="flex4 present_main" id="place"></div>
+        </div>
+        <div class="flex_row present_title">
+            <div class="flex1 present_tit">活动领队</div>
+            <div class="flex4 present_main">婷婷</div>
+        </div>
+        <div class="flex_row present_title">
+            <div class="flex1 present_tit">联系方式</div>
+            <div class="flex4 present_main">手机18515313529 QQ201705469</div>
+        </div>
+        <div class="flex_row present_title">
+            <div class="flex1 present_tit">活动人数</div>
+            <div class="flex4 present_main" id="number"></div>
+        </div>
+        <div class="present_title">
+            <div class="present_tit">装备要求</div>
+            <div class="present_main1"> 1.个人装备：（1）体验攀岩的队员：宽松衣裤、白网球鞋或者是攀岩鞋、（2）徒步队员：速干衣裤、高帮登山鞋、登山杖、遮阳帽、防晒霜、手套、1.5L饮用水或者是运动饮料、巧克力等高能食品2.公用装备：主绳、主锁等攀登锁具、安全带、头盔、镁粉、镁粉袋3.携带身份证 </div>
+        </div>
+        <div class="present_title">
+            <div class="present_tit">活动安排</div>
+            <div class="present_main1"> 早上6：00在火炬大厦集合，6：10出发，3个半小时到达花场屿，下车整理装备，做运动前的准备活动后，兵分两路，徒步的开始踏上征途，沿途赏美景，到达北龙潭顶看飞流直下的瀑布，感受大山带给我们的清凉。攀岩队伍由专业教练带领来到岩壁下，磨拳擦掌，勇攀高峰，攀岩休息过程中可以在河边捉小鱼。中午一点在农家享受地道的农家饭。如果大家体力超强，可以互换角色。下午四点大家上车回家，结束一天行程  </div>
+        </div>
+        <div class="present_title">
+            <div class="present_tit">特别说明</div>
+            <div class="present_main1"> 一上岩攀石俱乐部所有活动谢绝所有无组织、无纪律、不服从领队安排的、视领队为保姆的人员参加！  </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

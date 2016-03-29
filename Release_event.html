@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+    <meta name="apple-themes-web-app-capable" content="yes">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <meta name="format-detection" content="telephone=no">
+    <title>发布活动</title>
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/Geturl.js"></script>
+    <script type="javascript" src="js/fonts.js"> </script>
+    <link rel="stylesheet" href="css/all.css">
+    <script language="JavaScript">
+        $(function(){
+            $("#createact").click(function() {
+                var activityclass=$("#acttype").find("option:selected").text();
+                var activitytime=1;
+                var starttimeto=$("#endtime").val();
+                var starttimefrom=$("#starttime").val();
+                var gender=0;
+                var subject=$("#subject").val();
+                var activitynumber=$("#activitynumber").val();
+                var cost=$("#actcost").val();
+                var activityplace=$("#actplace").val();
+                var message=$("#actmessage").val();
+//            var con = "";
+                $.ajax({
+                    data:"activityclass="+activityclass+"&activitytime="+activitytime+"&starttimefrom[1]="+starttimefrom+"&starttimeto="+starttimeto+"&gender="+gender+"&subject="+subject+"&activitynumber="+activitynumber+"&cost="+cost+"&activityplace="+activityplace+"&message="+message,
+                    url: 'http://jlb.oular.com/mobileapp.php?mod=post&action=newthread&special=4&client=android&sauthtoken='+ a +'&fid='+c,
+                    type:'post',
+                    dataType : 'jsonp',
+//                    jsonp:'callback',
+                    timeout: 3000,
+                    success: function(result){
+                        console.log(11111);
+                        alert('发布成功');
+                    },
+                    error: function(){
+                        alert('发布失败');
+                    }
+                });
+            })
+
+        })
+    </script>
+</head>
+<body>
+<div>
+    <form>
+        <div class="title flex_row">
+           <div class=" flex1 flex_row" >
+				    <div class="title_back"  >
+				        <img src="images/Title-Bar-icon-back.png" >
+				    </div>
+				    <div class="title_close">
+				        <img src="images/iconfont-close.png"/>
+				    </div>
+				</div>
+            <div class="title_bar flex2">发布活动</div>
+            <div class="release_create flex1">
+                <input type="button" id="createact" value="创建"></button>
+            </div>
+        </div>
+
+        <div class="release_middle">
+            <div class="release_lei flex_row">
+                <div class="release_lei_type flex1">活动类型</div>
+                <div class="release_lei_type1 flex2">
+                    <select id="acttype">
+                        <option value="">朋友聚会</option>
+                        <option value="">外出郊游</option>
+                        <option value="">自己出行</option>
+                        <option value="">公益活动</option>
+                        <option value="">线上活动</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="release_biaoti">
+                <input type="text" id="subject" placeholder="请帖写活动标题">
+            </div>
+
+            <div class="release_ming flex_row">
+                <div class="release_tu">
+                    <input type="file" id="actimg" class="filed">
+                </div>
+
+                <div class="release_time flex1">
+                    <div class="start_time">
+                        <input type="text" placeholder="开始时间" id="starttime" class="text_time">
+                    </div>
+                    <div class="end_time">
+                        <input type="text" placeholder="结束时间" id="endtime" class="text_time">
+                    </div>
+                </div>
+            </div>
+
+            <div class="release_same flex_row">
+                <div class="release_same_label flex1">人数</div>
+                <div class="flex4">
+                    <input type="text" id="activitynumber" class="text_same" >
+                </div>
+            </div>
+
+            <div class="release_same flex_row">
+                <div class="release_same_label flex1">费用</div>
+                <div class="flex4">
+                    <input type="text" id="actcost" class="text_same" >
+                </div>
+            </div>
+
+            <div class="release_same flex_row">
+                <div class="release_same_label flex1">地点</div>
+                <div class="flex4">
+                    <input type="text" id="actplace" class="text_same" >
+                </div>
+            </div>
+
+            <div class="release_introduce">
+                <textarea cols="30" rows="5" id="actmessage" placeholder="活动介绍"></textarea>
+            </div>
+
+            <div class="release_foot">如果要发布内容丰富的活动，请用电脑访问</div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

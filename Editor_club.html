@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+    <meta name="apple-themes-web-app-capable" content="yes">
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <meta name="format-detection" content="telephone=no">
+    <title>编辑俱乐部</title>
+    <script type="javascript" src="js/fonts.js"> </script>
+    <script src="js/jquery-2.1.1.js"></script>
+    <script src="js/Geturl.js"></script>
+    <link rel="stylesheet" href="css/all.css">
+    <script language="JavaScript">
+        $(function(){
+            $("#reviseclub").click(function() {
+                var  myselect=document.getElementById("select2type");
+                var index=myselect.selectedIndex ;
+                var fup=myselect.options[index].value;
+                var name=$("#name").val();
+                var descriptionnew=$("#descriptionnew").val();
+//            var con = "";
+                $.ajax({
+                    data:"fup="+fup+"&name="+name+"&descriptionnew="+descriptionnew,
+                    url: 'http://jlb.oular.com/mobileapp.php?mod=group&action=group_edit&parenteid='+ b +'&createsubmit=true&gviewperm=1&jointype=0&fid='+ c +'&sauthtoken='+ a,
+                    type:'post',
+                    dataType : 'jsonp',
+                    timeout: 3000,
+                    success: function(result){
+                        console.log(result)
+                        alert(result.err_msg);
+                    },
+                    error: function(){
+                        alert('修改失败');
+                    }
+                });
+            })
+
+        })
+    </script>
+</head>
+<body>
+<div>
+    <form>
+    <div class="title flex_row">
+        <div class=" flex1 flex_row" >
+		    <div class="title_back" >
+		        <img src="images/Title-Bar-icon-back.png" >
+		    </div>
+		    <div class="title_close">
+		        <img src="images/iconfont-close.png"/>
+		    </div>
+		</div>
+        <div class="title_bar flex2">编辑俱乐部</div>
+        <div class="flex1"></div>
+    </div>
+
+    <div class="create_logo">
+        <div class="logo_file">
+            <input type="file">
+        </div>
+    </div>
+
+    <div class="flex_row create_same">
+        <div class="flex1 create_same_label">名称</div>
+        <div class="flex4">
+            <input type="text" id="name" class="create_text_same" placeholder="请输入俱乐部名称">
+        </div>
+    </div>
+
+    <div class="create_lei flex_row">
+        <div class="create_lei_type flex1">地点</div>
+        <div class="create_lei_type1 flex4">
+            <select>
+                <option value="">上海</option>
+                <option value="">北京</option>
+                <option value="">苏州</option>
+                <option value="">南京</option>
+                <option value="">深圳</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="create_lei flex_row">
+        <div class="create_lei_type flex1">类型</div>
+        <div class="create_lei_type1 flex4">
+            <select id="select2type">
+                <option value="48">攀冰</option>
+                <option value="49">攀岩</option>
+                <option value="50">骑行</option>
+                <option value="51">登山</option>
+                <option value="52">跑步</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="flex_row create_same">
+        <div class="flex1 create_same_label">简介</div>
+        <div class="flex4">
+            <input type="text" id="descriptionnew" class="create_text_same" placeholder="请输入俱乐部简介">
+        </div>
+    </div>
+
+    <div>
+        <input type="button" id="reviseclub" value="修改" class="create_btn">
+    </div>
+    </form>
+</div>
+<script src="js/all.js"></script>
+</body>
+</html>
